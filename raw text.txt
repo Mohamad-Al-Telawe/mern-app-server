@@ -1,0 +1,50 @@
+{
+  "info": {
+    "name": "MERN Student API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add Student",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"أحمد خالد\",\n  \"level\": \"مكثفة\",\n  \"class\": 6,\n  \"parentContact\": 123456789,\n  \"birthDay\": \"2013-05-12\",\n  \"photoUrl\": \"https://example.com/photo.jpg\",\n  \"generalStatus\": \"ممتاز\",\n  \"disciplinedStatus\": \"منضبط\",\n  \"tajweedDegre\": 8,\n  \"hasMemorized\": \"جزء عمّ\",\n  \"notes\": \"طالب مجتهد\"\n}"
+        },
+        "url": {
+          "raw": "https://mern-app-server-production-457d.up.railway.app/api/students",
+          "protocol": "https",
+          "host": [
+            "mern-app-server-production-457d",
+            "up",
+            "railway",
+            "app"
+          ],
+          "path": ["api", "students"]
+        }
+      }
+    },
+    {
+      "name": "List Students",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://mern-app-server-production-457d.up.railway.app/api/students",
+          "protocol": "https",
+          "host": [
+            "mern-app-server-production-457d",
+            "up",
+            "railway",
+            "app"
+          ],
+          "path": ["api", "students"]
+        }
+      }
+    }
+  ]
+}

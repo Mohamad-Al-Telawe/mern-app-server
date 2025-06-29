@@ -8,24 +8,67 @@ router.get("/", async (req, res) => {
       const students = await Student.find();
       res.json(students);
    } catch (err) {
-      res.status(500).json({ error: "حدث خطأ أثناء جلب الطلاب" });
+      res.status(500).json({
+         error: "حدث خطأ أثناء جلب الطلاب",
+         details: err.message,
+      });
    }
 });
 
-// ✅ POST: إضافة طالب جديد
+// ✅ GET: معلومات طالب واحد حسب ID
+router.get("/:id", async (req, res) => {
+   try {
+      const student = await Student.findById(req.params.id);
+      if (!student) {
+         return res.status(404).json({ error: "الطالب غير موجود" });
+      }
+      res.json(student);
+   } catch (err) {
+      res.status(500).json({
+         error: "حدث خطأ أثناء جلب الطالب",
+         details: err.message,
+      });
+   }
+});
+
+
+// ✅ POST: إضافة طالب جديد (محدثة)
 router.post("/", async (req, res) => {
    try {
-      const { name, level, class: className, parentContact } = req.body;
+      const {
+         name,
+         level,
+         group,
+         grade,
+         parentContact,
+         birthDay,
+         photoUrl,
+         generalStatus,
+         disciplinedStatus,
+         tajweedDegre,
+         hasMemorized,
+         notes,
+      } = req.body;
+
       const student = new Student({
          name,
          level,
-         class: className,
+         group,
+         grade,
          parentContact,
+         birthDay,
+         photoUrl,
+         generalStatus,
+         disciplinedStatus,
+         tajweedDegre,
+         hasMemorized,
+         notes,
       });
+
       await student.save();
       res.status(201).json(student);
    } catch (err) {
-      console.error("Error adding student:", err); // هنا طباعة الخطأ في الكونسول
+      console.error("Error adding student:", err);
       res.status(400).json({
          error: "خطأ أثناء إضافة الطالب",
          details: err.message,

@@ -36,3 +36,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
    console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
+app.get("/health", (req, res) => {
+   res.json({ status: "up", time: new Date() });
+});
