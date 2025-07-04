@@ -4,7 +4,7 @@ const studentSchema = new mongoose.Schema({
    name: { type: String, required: true },
    level: { type: String, enum: ["مكثفة", "A", "B"], default: "B" },
    group: { type: String },
-   grade : { type: Number },
+   grade: { type: Number },
    parentContact: { type: Number },
    birthDay: { type: Date, default: Date.now },
    photoUrl: { type: String },
@@ -12,6 +12,10 @@ const studentSchema = new mongoose.Schema({
       type: String,
       enum: ["ممتاز", "جيد", "غير جيد"],
       default: "جيد",
+   },
+   currentAttendanceStatus: {
+      type: String,
+      enum: ["يحضر", "لا يحضر"],
    },
    disciplinedStatus: {
       type: String,

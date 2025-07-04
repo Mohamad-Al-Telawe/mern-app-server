@@ -66,6 +66,29 @@ router.post("/", async (req, res) => {
    }
 });
 
+// إدخال عدة جلسات دفعة واحدة
+router.post("/bulk", async (req, res) => {
+   const { sessions } = req.body;
+
+   if (!Array.isArray(sessions) || sessions.length === 0) {
+      return res.status(400).json({ error: "يجب إرسال مصفوفة جلسات صالحة" });
+   }
+
+   try {
+      const inserted = await Session.insertMany(sessions);
+      res.status(201).json({
+         message: `${inserted.length} جلسة تم حفظها بنجاح`,
+         data: inserted,
+      });
+   } catch (err) {
+      console.error("خطأ في حفظ الجلسات:", err);
+      res.status(500).json({
+         error: "حدث خطأ أثناء حفظ الجلسات",
+         details: err.message,
+      });
+   }
+});
+
 // تعديل جلسة حسب ID
 router.patch("/:id", async (req, res) => {
    try {

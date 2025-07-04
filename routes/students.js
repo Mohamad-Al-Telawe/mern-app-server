@@ -31,7 +31,6 @@ router.get("/:id", async (req, res) => {
    }
 });
 
-
 // ✅ POST: إضافة طالب جديد (محدثة)
 router.post("/", async (req, res) => {
    try {
@@ -44,6 +43,7 @@ router.post("/", async (req, res) => {
          birthDay,
          photoUrl,
          generalStatus,
+         currentAttendanceStatus,
          disciplinedStatus,
          tajweedDegre,
          hasMemorized,
@@ -59,6 +59,7 @@ router.post("/", async (req, res) => {
          birthDay,
          photoUrl,
          generalStatus,
+         currentAttendanceStatus,
          disciplinedStatus,
          tajweedDegre,
          hasMemorized,
