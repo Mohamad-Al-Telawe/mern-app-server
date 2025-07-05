@@ -33,6 +33,7 @@ router.get("/:id", async (req, res) => {
 
 // ✅ POST: إضافة طالب جديد (محدثة)
 router.post("/", async (req, res) => {
+   console.log("Received body:", req.body);
    try {
       const {
          name,
@@ -47,6 +48,7 @@ router.post("/", async (req, res) => {
          disciplinedStatus,
          tajweedDegre,
          hasMemorized,
+         hasHomework,
          notes,
       } = req.body;
 
@@ -63,6 +65,7 @@ router.post("/", async (req, res) => {
          disciplinedStatus,
          tajweedDegre,
          hasMemorized,
+         hasHomework,
          notes,
       });
 
@@ -72,6 +75,27 @@ router.post("/", async (req, res) => {
       console.error("Error adding student:", err);
       res.status(400).json({
          error: "خطأ أثناء إضافة الطالب",
+         details: err.message,
+      });
+   }
+});
+
+// تحديث بيانات طالب موجود
+router.patch("/:id", async (req, res) => {
+   try {
+      const updatedStudent = await Student.findByIdAndUpdate(
+         req.params.id,
+         req.body,
+         { new: true, runValidators: true }
+      );
+      if (!updatedStudent) {
+         return res.status(404).json({ error: "الطالب غير موجود" });
+      }
+      res.json(updatedStudent);
+   } catch (err) {
+      console.error("خطأ في تحديث الطالب:", err);
+      res.status(400).json({
+         error: "فشل في تحديث الطالب",
          details: err.message,
       });
    }
