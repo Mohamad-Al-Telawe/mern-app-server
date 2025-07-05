@@ -31,7 +31,7 @@ router.get("/:id", async (req, res) => {
    }
 });
 
-// ✅ POST: إضافة طالب جديد (محدثة)
+// ✅ POST: إضافة طالب جديد
 router.post("/", async (req, res) => {
    console.log("Received body:", req.body);
    try {
@@ -80,7 +80,7 @@ router.post("/", async (req, res) => {
    }
 });
 
-// تحديث بيانات طالب موجود
+// ✅ تحديث بيانات طالب موجود
 router.patch("/:id", async (req, res) => {
    try {
       const updatedStudent = await Student.findByIdAndUpdate(
@@ -96,6 +96,23 @@ router.patch("/:id", async (req, res) => {
       console.error("خطأ في تحديث الطالب:", err);
       res.status(400).json({
          error: "فشل في تحديث الطالب",
+         details: err.message,
+      });
+   }
+});
+
+// ✅ حذف طالب حسب ID
+router.delete("/:id", async (req, res) => {
+   try {
+      const deletedStudent = await Student.findByIdAndDelete(req.params.id);
+      if (!deletedStudent) {
+         return res.status(404).json({ error: "الطالب غير موجود" });
+      }
+      res.json({ message: "تم حذف الطالب بنجاح" });
+   } catch (err) {
+      console.error("خطأ في حذف الطالب:", err);
+      res.status(500).json({
+         error: "فشل في حذف الطالب",
          details: err.message,
       });
    }
