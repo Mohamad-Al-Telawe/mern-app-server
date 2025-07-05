@@ -18,6 +18,9 @@ router.post("/", async (req, res) => {
          date: today,
          timeIn,
       });
+
+      await attendance.save();
+      res.status(201).json(attendance);
    } catch (err) {
       console.error("خطأ في إضافة الحضور:", err);
       res.status(500).json({ error: "فشل في إضافة الحضور" });
