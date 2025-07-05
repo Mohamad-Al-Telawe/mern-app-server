@@ -5,20 +5,19 @@ const Attendance = require("../models/Attendance");
 // 📌 إضافة سجل حضور
 router.post("/", async (req, res) => {
    try {
-      const { studentId, date, timeIn } = req.body;
+      const { studentId, timeIn } = req.body;
 
-      if (!studentId || !date) {
-         return res.status(400).json({ error: "studentId و date مطلوبان" });
+      if (!studentId) {
+         return res.status(400).json({ error: "studentId مطلوب" });
       }
+
+      const today = new Date().toISOString().split("T")[0];
 
       const attendance = new Attendance({
          studentId,
-         date,
+         date: today,
          timeIn,
       });
-
-      await attendance.save();
-      res.status(201).json(attendance);
    } catch (err) {
       console.error("خطأ في إضافة الحضور:", err);
       res.status(500).json({ error: "فشل في إضافة الحضور" });
