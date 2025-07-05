@@ -24,6 +24,7 @@ const studentSchema = new mongoose.Schema({
    },
    tajweedDegre: { type: Number, default: 0 },
    hasMemorized: { type: String },
+   hasHomework: { type: String },
    notes: { type: String },
    createdAt: { type: Date, default: Date.now },
 });

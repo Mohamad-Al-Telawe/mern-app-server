@@ -31,6 +31,10 @@ app.use("/api/students", studentRoutes);
 const sessionRoutes = require("./routes/sessions");
 app.use("/api/sessions", sessionRoutes);
 
+const attendanceRoutes = require("./routes/attendances");
+app.use("/api/attendances", attendanceRoutes);
+
+
 // بدء السيرفر
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
