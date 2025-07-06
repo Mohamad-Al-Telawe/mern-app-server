@@ -14,14 +14,29 @@ router.get("/student/:studentId", async (req, res) => {
    }
 });
 
-// جلب كل الجلسات
+// // جلب كل الجلسات
+// router.get("/", async (req, res) => {
+//    try {
+//       const sessions = await Session.find().populate("studentId");
+//       res.json(sessions);
+//    } catch (err) {
+//       res.status(500).json({
+//          error: "خطأ أثناء جلب الجلسات",
+//          details: err.message,
+//       });
+//    }
+// });
+
+// GET: جلب الجلسات (مع دعم الفلترة بالتاريخ)
 router.get("/", async (req, res) => {
    try {
-      const sessions = await Session.find().populate("studentId");
+      const { date } = req.query;
+      const filter = date ? { date } : {};
+      const sessions = await Session.find(filter).populate("studentId", "name");
       res.json(sessions);
    } catch (err) {
       res.status(500).json({
-         error: "خطأ أثناء جلب الجلسات",
+         error: "فشل في تحميل الجلسات",
          details: err.message,
       });
    }
