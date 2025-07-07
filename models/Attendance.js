@@ -10,6 +10,11 @@ const attendanceSchema = new mongoose.Schema({
       type: Date,
       required: true,
    },
+   hifz: {
+      type: String,
+      enum: ["حافظ","غير حافظ","لا يوجد تسميع"],
+      default: "غير حافظ",
+   },
    timeIn: {
       type: String, // hh:mm مثلاً "08:35" - فقط للمكثفة
    },

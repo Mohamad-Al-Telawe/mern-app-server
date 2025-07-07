@@ -5,7 +5,7 @@ const Attendance = require("../models/Attendance");
 // 📌 إضافة سجل حضور
 router.post("/", async (req, res) => {
    try {
-      const { studentId, timeIn } = req.body;
+      const { studentId, timeIn, hifz } = req.body;
 
       if (!studentId) {
          return res.status(400).json({ error: "studentId مطلوب" });
@@ -17,6 +17,7 @@ router.post("/", async (req, res) => {
          studentId,
          date: today,
          timeIn,
+         hifz, // ✅ استقبال حالة الحفظ
       });
 
       await attendance.save();
@@ -26,6 +27,7 @@ router.post("/", async (req, res) => {
       res.status(500).json({ error: "فشل في إضافة الحضور" });
    }
 });
+
 
 // 📌 جلب الحضور لطالب معيّن
 router.get("/student/:studentId", async (req, res) => {
@@ -46,10 +48,15 @@ router.get("/student/:studentId", async (req, res) => {
 // 📌 جلب كل الحضور ضمن فترة (اختياري start و end)
 router.get("/", async (req, res) => {
    try {
-      const { start, end } = req.query;
+      const { date, start, end } = req.query;
       const query = {};
 
-      if (start || end) {
+      if (date) {
+         const dayStart = new Date(date);
+         const dayEnd = new Date(date);
+         dayEnd.setDate(dayEnd.getDate() + 1);
+         query.date = { $gte: dayStart, $lt: dayEnd };
+      } else if (start || end) {
          query.date = {};
          if (start) query.date.$gte = new Date(start);
          if (end) query.date.$lte = new Date(end);
@@ -62,5 +69,7 @@ router.get("/", async (req, res) => {
       res.status(500).json({ error: "فشل في جلب الحضور" });
    }
 });
+
+
 
 module.exports = router;
