@@ -28,7 +28,6 @@ router.post("/", async (req, res) => {
    }
 });
 
-
 // 📌 جلب الحضور لطالب معيّن
 router.get("/student/:studentId", async (req, res) => {
    try {
@@ -62,14 +61,16 @@ router.get("/", async (req, res) => {
          if (end) query.date.$lte = new Date(end);
       }
 
-      const attendances = await Attendance.find(query).populate("studentId");
+      const attendances = await Attendance.find(query).populate({
+         path: "studentId",
+         match: { _id: { $ne: null } }, // تجاهل السجلات التي لا تملك طالب
+      });
+
       res.json(attendances);
    } catch (err) {
       console.error("خطأ في جلب الحضور:", err);
       res.status(500).json({ error: "فشل في جلب الحضور" });
    }
 });
-
-
 
 module.exports = router;

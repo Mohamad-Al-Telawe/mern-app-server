@@ -51,6 +51,7 @@ router.post("/", async (req, res) => {
          tajweedDegre,
          hasMemorized,
          hasHomework,
+         points,
          notes,
       } = req.body;
 
@@ -68,6 +69,7 @@ router.post("/", async (req, res) => {
          tajweedDegre,
          hasMemorized,
          hasHomework,
+         points,
          notes,
       });
 
